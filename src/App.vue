@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    主页
+    <!-- 一级路由显示的位置 -->
+    <router-view></router-view>
   </div>
 </template>
 
