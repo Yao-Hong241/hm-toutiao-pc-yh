@@ -49,13 +49,13 @@
         <span class="text">后台管理系统</span>
         <el-dropdown>
           <span class="el-dropdown-link">
-            <img src="../../assets/avatar.jpg" alt />
-            <span class="name">用户名称</span>
+            <img :src="userphoto" alt />
+            <span class="name">{{ username }}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-switch-button">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" @click.native="setting()">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-switch-button" @click.native="logout()">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -68,16 +68,33 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   name: 'home',
   data () {
     return {
-      isopen: true
+      isopen: true,
+      username: '', // 用户名
+      userphoto: ''// 用户头像
     }
+  },
+  created () {
+    const user = store.getUser()
+    this.username = user.name
+    this.userphoto = user.photo
   },
   methods: {
     toggleAside () {
       this.isopen = !this.isopen
+    },
+    // 个人设置
+    setting () {
+      this.$router.push('/setting')
+    },
+    // 退出登录
+    logout () {
+      store.delUser()
+      this.$router.push('/login')
     }
   }
 }
